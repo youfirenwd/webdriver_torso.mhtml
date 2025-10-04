@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>web.archive.org</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body {
+      margin: 0;
+      background: #fff;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<script>
+(function WebdriverTorso() {
+  const CANVAS_ID = "wdt-canvas";
+  const FONT_FAMILY = "'Press Start 2P'"; // removed monospace fallback
+  const BEEP_DURATION = 1.0;
+  const BEEP_VOLUME = 0.2;
+
+  // create canvas
+  let canvas = document.getElementById(CANVAS_ID);
+  if (!canvas) {
+    canvas = document.createElement("canvas");
+    canvas.id = CANVAS_ID;
+    document.body.appendChild(canvas);
+  }
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  // audio
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  let audioCtx = new AudioCtx();
+
+  function playBeep() {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const freq = 512 + Math.random() * (1083 - 512); // 512–1083 Hz
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.value = BEEP_VOLUME;
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + BEEP_DURATION);
+  }
+
+  // slide counter
+  let slideIndex = 0;
+  function filename(idx) {
+    return `aqua.flv - Slide ${String(idx).padStart(4, "0")}`;
+  }
+
+  // draw slide
+  function drawSlide(idx) {
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, w, h);
+
+    // red rect
+    const rw1 = Math.max(50, Math.random() * (w / 2.5));
+    const rh1 = Math.max(50, Math.random() * (h / 2));
+    const rx1 = w * 0.1;
+    const ry1 = Math.random() * (h - rh1);
+
+    // blue rect
+    const rw2 = Math.max(50, Math.random() * (w / 2.5));
+    const rh2 = Math.max(50, Math.random() * (h / 2));
+    const rx2 = w * 0.6;
+    const ry2 = Math.random() * (h - rh2);
+
+    ctx.fillStyle = "red";
+    ctx.fillRect(rx1, ry1, rw1, rh1);
+    ctx.fillStyle = "blue";
+    ctx.fillRect(rx2, ry2, rw2, rh2);
+
+    // filename text in 8-bit font
+    ctx.font = `bold ${Math.floor(h * 0.025)}px ${FONT_FAMILY}`;
+    ctx.fillStyle = "#000";
+    ctx.textBaseline = "bottom";
+    ctx.fillText(filename(idx), 20, h - 20);
+  }
+
+  function nextSlide() {
+    drawSlide(slideIndex);
+    playBeep();
+    slideIndex++;
+    setTimeout(nextSlide, BEEP_DURATION * 1000);
+  }
+
+  nextSlide();
+})();
+</script>
+</body>
+</html>
+    
+  </body>
+  
+</html>

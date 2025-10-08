@@ -1,16 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>Untitled</title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>web.archive.org</title>
@@ -30,7 +19,7 @@
 <script>
 (function WebdriverTorso() {
   const CANVAS_ID = "wdt-canvas";
-  const FONT_FAMILY = "'Press Start 2P'"; // removed monospace fallback
+  const FONT_FAMILY = "'Press Start 2P'";
   const BEEP_DURATION = 1.0;
   const BEEP_VOLUME = 0.2;
 
@@ -57,7 +46,10 @@
   function playBeep() {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    const freq = 512 + Math.random() * (1083 - 512); // 512–1083 Hz
+
+    // 🔊 Changed frequency range to 612–1990 Hz
+    const freq = 612 + Math.random() * (1990 - 612);
+
     osc.type = "sine";
     osc.frequency.value = freq;
     gain.gain.value = BEEP_VOLUME;
@@ -97,7 +89,7 @@
     ctx.fillStyle = "blue";
     ctx.fillRect(rx2, ry2, rw2, rh2);
 
-    // filename text in 8-bit font
+    // filename text
     ctx.font = `bold ${Math.floor(h * 0.025)}px ${FONT_FAMILY}`;
     ctx.fillStyle = "#000";
     ctx.textBaseline = "bottom";
@@ -115,8 +107,4 @@
 })();
 </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
